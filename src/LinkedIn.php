@@ -97,7 +97,7 @@ class LinkedIn implements LinkedInInterface
             return false;
         }
 
-        $user = $this->api('GET', '/v1/people/~:(id,firstName,lastName)', ['format' => 'json', 'response_data_type' => 'array']);
+        $user = $this->api('GET', '/v2/me', ['response_data_type' => 'array']);
 
         return !empty($user['id']);
     }
@@ -158,11 +158,13 @@ class LinkedIn implements LinkedInInterface
             case 'json':
                 $options['headers']['Content-Type'] = 'application/json';
                 $options['headers']['x-li-format'] = 'json';
-                $options['query']['format'] = 'json';
+//                $options['query']['format'] = 'json';
                 break;
             default:
                 // Do nothing
         }
+
+        $options['headers']['X-Restli-Protocol-Version'] = '2.0.0';
 
         return $options['format'];
     }
